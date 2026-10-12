@@ -35,7 +35,9 @@ jobs:
 
       - name: Build and release
         id: php-ext-binary-builder
-        uses: php/pie-ext-binary-builder@0.0.2
+        uses: php/pie-ext-binary-builder@0.0.4
         with:
           release-tag: ${{ github.ref_name }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          create-release: true
+          build-path: pie

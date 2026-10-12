@@ -1,0 +1,41 @@
+name: Build and release binaries for PIE
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  add-pie-binaries:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system:
+          - ubuntu-latest
+        php-versions:
+          - 8.4
+        zts-mode:
+          - ts
+          - nts
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+        env:
+          phpts: ${{ matrix.zts-mode }}
+
+      - name: Build and release
+        id: php-ext-binary-builder
+        uses: php/pie-ext-binary-builder@0.0.2
+        with:
+          release-tag: ${{ github.ref_name }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}

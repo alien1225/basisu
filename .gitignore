@@ -1,0 +1,22 @@
+/target
+/.php
+/.idea
+# PHP extension build artifacts
+config.h
+config.log
+config.nice
+config.status
+configure
+configure.ac
+aclocal.m4
+/autom4te.cache/
+libtool
+Makefile
+Makefile.fragments
+Makefile.objects
+run-tests.php
+/modules/
+.libs/
+config.m4
+/build
+config.h.in

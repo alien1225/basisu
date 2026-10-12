@@ -1,0 +1,16 @@
+[package]
+name = "basisu"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+ext-php-rs = { version = "0.16.0", features = ["enum"] }
+basisu_c_sys = { version = "0.9.1", features = ["encoder", "extra"] }
+image = "0.25.10"
+bytemuck = "1.25.2"
+
+[profile.release]
+strip = "debuginfo"

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://getcomposer.org/schema.json",
+  "name": "alien1225/basisu",
+  "type": "php-ext",
+  "php-ext": {
+    "build-path": "pie",
+    "extension-name": "basisu",
+    "download-url-method": [
+      "pre-packaged-binary",
+      "composer-default"
+    ],
+    "configure-options": [
+      {
+        "name": "debug",
+        "description": "Build in debug mode",
+        "needs-value": false
+      }
+    ]
+  }
+}

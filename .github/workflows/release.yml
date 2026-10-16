@@ -1,0 +1,67 @@
+name: Build and release binaries for PIE
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --draft \
+            --title "${GITHUB_REF_NAME}" \
+            --notes "PIE binary release"
+
+  add-pie-binaries:
+    needs: create-release
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: true
+      matrix:
+        operating-system:
+          - ubuntu-latest
+        php-versions:
+          - 8.1
+          - 8.2
+          - 8.3
+          - 8.4
+          - 8.5
+        zts-mode:
+          - ts
+          - nts
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+        env:
+          phpts: ${{ matrix.zts-mode }}
+
+      - name: Build and release
+        id: php-ext-binary-builder
+        uses: php/pie-ext-binary-builder@0.0.4
+        with:
+          release-tag: ${{ github.ref_name }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          build-path: pie
+          upload-artifacts: true

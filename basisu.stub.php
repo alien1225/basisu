@@ -1,51 +1,73 @@
 <?php
 
 namespace Bu {
-    class Encoder {
-        public function __construct(\Bu\EncoderParams $params) {}
 
-        public function compressFileIntoFile(string $in_path, string $out_path, ?int $depth_or_array_layers = null): void {};
+    use Bu\Enums\MipmapMode;
+    use Bu\Enums\TextureContainer;
+    use Bu\Enums\TextureFormat;
+
+    class Encoder {
+        public function __construct(EncoderParams $params) {}
+
+        public function compressFileIntoFile(string $inPath, string $outPath, ?int $depthOrArrayLayers = null): void {};
     }
 
     class EncoderParams {
         public int $qualityLevel;
         public int $effortLevel;
-        public \Bu\Enums\TextureFormat $textureFormat;
-        public \Bu\Enums\TextureContainer $textureContainer;
-        public \Bu\Enums\MipmapMode $mipmapMode;
+        public TextureFormat $textureFormat;
+        public TextureContainer $textureContainer;
+        public MipmapMode $mipmapMode;
         public bool $debugOutput;
         public bool $threadedCompression;
         public bool $srgb;
         public bool $ktx2UastcZstd;
         public float $uastcRdoOrDctQuality;
 
-        public function __construct(\Bu\Enums\TextureContainer $texture_container, \Bu\Enums\TextureFormat $texture_format, int $quality_level, int $effort_level) {}
+        /**
+         * @param int $qualityLevel Value must be between 1 and 100. An exception is thrown if the value is out of range.
+         * @param int $effortLevel Value must be between 0 and 10. An exception is thrown if the value is out of range.
+         */
+        public function __construct(
+            TextureContainer $textureContainer,
+            TextureFormat $textureFormat,
+            int $qualityLevel,
+            int $effortLevel
+        ) {}
 
-        public function setQualityLevel(int $quality_level): void {}
+        /**
+         * @param int $qualityLevel Value must be between 1 and 100. An exception is thrown if the value is out of range.
+         */
+        public function setQualityLevel(int $qualityLevel): void {}
 
         public function getQualityLevel(): int {}
 
-        public function setEffortLevel(int $effort_level): void {}
+        /**
+         * @param int $effortLevel Value must be between 0 and 10. An exception is thrown if the value is out of range.
+         */
+        public function setEffortLevel(int $effortLevel): void {}
 
         public function getEffortLevel(): int {}
 
-        public function setTextureFormat(\Bu\Enums\TextureFormat $texture_format): void {}
+        public function setTextureFormat(TextureFormat $textureFormat): void {}
 
-        public function getTextureFormat(): \Bu\Enums\TextureFormat {}
+        public function getTextureFormat(): TextureFormat
+        {}
 
-        public function setTextureContainer(\Bu\Enums\TextureContainer $texture_container): void {}
+        public function setTextureContainer(TextureContainer $textureContainer): void {}
 
-        public function getTextureContainer(): \Bu\Enums\TextureContainer {}
+        public function getTextureContainer(): TextureContainer
+        {}
 
-        public function setMipmapMode(\Bu\Enums\MipmapMode $mipmap_mode): void {}
+        public function setMipmapMode(MipmapMode $mipmapMode): void {}
 
-        public function getMipmapMode(): \Bu\Enums\MipmapMode {}
+        public function getMipmapMode(): MipmapMode {}
 
-        public function setDebugOutput(bool $debug_output): void {}
+        public function setDebugOutput(bool $debugOutput): void {}
 
         public function getDebugOutput(): bool {}
 
-        public function setThreadedCompression(bool $threaded_compression): void {}
+        public function setThreadedCompression(bool $threadedCompression): void {}
 
         public function getThreadedCompression(): bool {}
 
@@ -53,11 +75,11 @@ namespace Bu {
 
         public function getSrgb(): bool {}
 
-        public function setKtx2UastcZstd(bool $ktx2_uastc_zstd): void {}
+        public function setKtx2UastcZstd(bool $ktx2UastcZstd): void {}
 
         public function getKtx2UastcZstd(): bool {}
 
-        public function setUastcRdoOrDctQuality(float $uastc_rdo_or_dct_quality): void {}
+        public function setUastcRdoOrDctQuality(float $uastcRdoOrDctQuality): void {}
 
         public function getUastcRdoOrDctQuality(): float {}
     }
